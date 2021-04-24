@@ -7,7 +7,7 @@ import { AccountService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'register.component.html' })
 export class RegisterComponent implements OnInit {
-    form: FormGroup;
+    form:FormGroup;
     loading = false;
     submitted = false;
 
@@ -33,29 +33,21 @@ export class RegisterComponent implements OnInit {
     get f() { return this.form.controls; }
 
     onSubmit() {
-        // this.submitted = true;
-       
-        // reset alerts on submit
-        // this.alertService.clear();
-
-        // stop here if form is invalid
         if (this.form.invalid) {
             return;
         }
-        this.accountService.register(this.form.value).subscribe(data =>this.router.navigate(['../login']));
+        this.accountService.register(this.form.value).subscribe(data =>{ console.log(data),
+       
+                        this.alertService.success('Registration successful', { keepAfterRouteChange: true });
+                        this.router.navigate(['../login'], { relativeTo: this.route });
+                    
+        },(error) => {
+         
 
-        // this.loading = true;
-        // this.accountService.register(this.form.value)
-        //     .pipe(first())
-        //     .subscribe({
-        //         next: () => {
-        //             this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-        //             this.router.navigate(['../login'], { relativeTo: this.route });
-        //         },
-        //         error: error => {
-        //             this.alertService.error(error);
-        //             this.loading = false;
-        //         }
-        //     });
+                        this.alertService.error(error)
+                        // console.log(error)
+                        this.loading = false;
+                    
+        });
     }
 }

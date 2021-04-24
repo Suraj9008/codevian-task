@@ -32,8 +32,7 @@ export class AccountService {
                 this.userSubject.next(user);
                 return user;
             }));
-    }
-
+        }   
     logout() {
         // remove user from local storage and set current user to null
         localStorage.removeItem('user');
